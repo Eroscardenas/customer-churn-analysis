@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Churn Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+
+            <div>
+                <p class="eyebrow">TELCO CUSTOMER CHURN</p>
+
+                <h1>Customer Overview</h1>
+
+                <p class="header-description">
+                    Retention trends and churn patterns from
+                    7,043 telecom customers.
+                </p>
+            </div>
+
+            <a
+                href="/predict"
+                class="primary-button"
+            >
+                Predict customer
+            </a>
+
+        </header>
+
+
+        <!-- KPI CARDS -->
+        <section class="metrics">
+
+            <article class="metric-card">
+                <span>Total customers</span>
+
+                <strong>
+                    {{ "{:,}".format(total_customers) }}
+                </strong>
+
+                <small>customers analyzed</small>
+            </article>
+
+
+            <article class="metric-card">
+                <span>Churned</span>
+
+                <strong>
+                    {{ "{:,}".format(churned_customers) }}
+                </strong>
+
+                <small>customers lost</small>
+            </article>
+
+
+            <article class="metric-card">
+                <span>Churn rate</span>
+
+                <strong>
+                    {{ churn_rate }}%
+                </strong>
+
+                <small>of total customers</small>
+            </article>
+
+
+            <article class="metric-card">
+                <span>Avg. monthly charge</span>
+
+                <strong>
+                    ${{ avg_monthly_charges }}
+                </strong>
+
+                <small>per customer</small>
+            </article>
+
+        </section>
+
+
+        <!-- MAIN CHARTS -->
+        <section class="charts-grid">
+
+            <article class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-label">
+                            CONTRACT
+                        </p>
+
+                        <h2>
+                            Churn rate by contract
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="contractChart"></canvas>
+                </div>
+
+            </article>
+
+
+            <article class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-label">
+                            INTERNET
+                        </p>
+
+                        <h2>
+                            Churn rate by service
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="internetChart"></canvas>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- INSIGHTS -->
+        <section class="bottom-grid">
+
+            <article class="panel retention-panel">
+
+                <p class="panel-label">
+                    RETENTION
+                </p>
+
+                <h2>
+                    {{ "{:,}".format(retained_customers) }}
+                    customers retained
+                </h2>
+
+                <p class="muted">
+                    Most customers remained active, but churn is
+                    concentrated in specific contract and service
+                    segments.
+                </p>
+
+            </article>
+
+
+            <article class="panel">
+
+                <p class="panel-label">
+                    KEY FINDINGS
+                </p>
+
+                <ul class="insight-list">
+
+                    <li>
+                        Month-to-month contracts show the
+                        strongest churn risk.
+                    </li>
+
+                    <li>
+                        Short tenure is strongly associated
+                        with customer loss.
+                    </li>
+
+                    <li>
+                        Fiber optic customers show a higher
+                        churn pattern.
+                    </li>
+
+                    <li>
+                        Lack of Tech Support and Online
+                        Security increases risk.
+                    </li>
+
+                </ul>
+
+            </article>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+
+            <span>
+                Customer Churn Analysis
+            </span>
+
+            <span>
+                Python · Pandas · Scikit-learn · Flask
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- DATA FROM FLASK -->
+    <script
+        id="contract-labels"
+        type="application/json"
+    >
+        {{ contract_labels | tojson }}
+    </script>
+
+    <script
+        id="contract-values"
+        type="application/json"
+    >
+        {{ contract_values | tojson }}
+    </script>
+
+    <script
+        id="internet-labels"
+        type="application/json"
+    >
+        {{ internet_labels | tojson }}
+    </script>
+
+    <script
+        id="internet-values"
+        type="application/json"
+    >
+        {{ internet_values | tojson }}
+    </script>
+
+
+    <!-- CHARTS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+    <script>
+
+        const readJSON = (id) => {
+            const element =
+                document.getElementById(id);
+
+            return JSON.parse(
+                element.textContent
+            );
+        };
+
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: (context) =>
+                            `${context.raw}%`
+                    }
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+
+                    grid: {
+                        color: "#27272a"
+                    },
+
+                    ticks: {
+                        callback: (value) =>
+                            `${value}%`
+                    }
+                },
+
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+
+        const createBarChart = (
+            canvasId,
+            labels,
+            values
+        ) => {
+
+            new Chart(
+                document.getElementById(canvasId),
+                {
+                    type: "bar",
+
+                    data: {
+                        labels,
+
+                        datasets: [{
+                            data: values,
+                            backgroundColor: "#7c3aed",
+                            borderRadius: 5,
+                            borderSkipped: false
+                        }]
+                    },
+
+                    options: chartOptions
+                }
+            );
+
+        };
+
+
+        createBarChart(
+            "contractChart",
+            readJSON("contract-labels"),
+            readJSON("contract-values")
+        );
+
+
+        createBarChart(
+            "internetChart",
+            readJSON("internet-labels"),
+            readJSON("internet-values")
+        );
+
+    </script>
+
+</body>
+
+</html>

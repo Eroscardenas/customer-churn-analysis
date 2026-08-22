@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Churn Prediction</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="predict-header">
+
+            <a
+                href="/"
+                class="back-link"
+            >
+                ← Dashboard
+            </a>
+
+            <span class="badge">
+                Machine Learning
+            </span>
+
+            <h1 class="predict-title">
+                Predict Customer Churn
+            </h1>
+
+            <p class="predict-description">
+                Enter customer information to estimate churn risk
+                using the trained Gradient Boosting model.
+            </p>
+
+        </section>
+
+
+        {% include "partials/predict_form.html" %}
+
+
+        {% if prediction %}
+
+        <section class="prediction-result">
+
+            <p class="panel-label">
+                Prediction Result
+            </p>
+
+            <h2>
+                {{ prediction }}
+            </h2>
+
+
+            {% if probability is not none %}
+
+            <div class="risk-score">
+
+                <span>
+                    Estimated Churn Probability
+                </span>
+
+                <strong>
+                    {{ probability }}%
+                </strong>
+
+            </div>
+
+
+            <div class="risk-bar">
+
+                <div
+                    id="riskBarFill"
+                    class="risk-bar-fill"
+                    data-probability="{{ probability }}"
+                ></div>
+
+            </div>
+
+
+            <p class="risk-level">
+                {{ risk_level }} Risk
+            </p>
+
+
+            <p class="muted prediction-note">
+                This score supports customer-retention
+                prioritization and should not be interpreted
+                as a guaranteed customer outcome.
+            </p>
+
+            {% endif %}
+
+        </section>
+
+        {% endif %}
+
+    </main>
+
+
+    <script>
+
+        const riskBar =
+            document.getElementById("riskBarFill");
+
+
+        if (riskBar) {
+
+            const probability =
+                Number(riskBar.dataset.probability);
+
+            riskBar.style.width =
+                `${probability}%`;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

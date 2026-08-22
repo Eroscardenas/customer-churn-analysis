@@ -1,0 +1,16 @@
+Feature,Importance
+total_charges,0.11924865614543956
+monthly_charges,0.11158473902671194
+tenure,0.10134772987033322
+contract_month_to_month,0.05585051082679207
+long_term_contract,0.04555241347431242
+online_security_no,0.03276948589743146
+number_of_services,0.029097919964999962
+tech_support_no,0.028798992177697196
+internet_service_fiber_optic,0.025286105416823836
+contract_two_year,0.023835107714297473
+tenure_group_0_12_months,0.023804129359979765
+payment_method_electronic_check,0.023673307233000835
+gender_female,0.015512687554249203
+gender_male,0.015470448917918976
+online_backup_no,0.01408117861502825

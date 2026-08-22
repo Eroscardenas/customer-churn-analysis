@@ -1,0 +1,16 @@
+Feature,Importance
+contract_month_to_month,0.1889393514621948
+long_term_contract,0.18829378247660652
+tenure,0.14195194401727496
+total_charges,0.08786569382236335
+internet_service_fiber_optic,0.0875944192413167
+monthly_charges,0.07229140053693468
+online_security_no,0.06811805717354252
+tech_support_no,0.0417370242511282
+payment_method_electronic_check,0.04141023191746288
+paperless_billing_yes,0.013278357391369388
+multiple_lines_no,0.009060911489391085
+online_backup_no,0.00797172208608878
+streaming_movies_yes,0.006048186776932365
+contract_two_year,0.005443392522870081
+paperless_billing_no,0.005245860879233191
