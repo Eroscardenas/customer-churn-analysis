@@ -4,7 +4,13 @@ End-to-end customer churn analysis using Python, machine learning, and an intera
 
 The project analyzes customer behavior, identifies the main factors associated with churn, compares multiple classification models, and translates the results into actionable customer-retention insights.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Application-7C3AED?style=for-the-badge)](https://customer-churn-analysis-g075.onrender.com)
+
+> **Live application:** The trained Gradient Boosting model is deployed as an interactive Flask application on Render.
+
 ![Customer Churn Dashboard](images/dashboard.png)
+
+---
 
 ## Project Overview
 
@@ -22,6 +28,9 @@ The workflow covers:
 - Classification threshold analysis
 - Business recommendations
 - Interactive churn prediction with Flask
+- Model deployment with Render
+
+---
 
 ## Dataset
 
@@ -48,6 +57,8 @@ The processed dataset contains **7,043 customers** and includes information abou
 | Churn Rate | 26.5% |
 | Average Monthly Charges | $64.76 |
 
+---
+
 ## Exploratory Data Analysis
 
 One of the strongest patterns identified during the analysis was the relationship between **contract type and customer churn**.
@@ -73,6 +84,8 @@ Other patterns observed during the analysis included higher churn among customer
 - No Online Security
 - Electronic check payment method
 
+---
+
 ## Machine Learning
 
 Three classification models were trained and evaluated:
@@ -95,6 +108,8 @@ Three classification models were trained and evaluated:
 
 Logistic Regression achieved the highest recall at **79.4%**, making it particularly relevant when the business cost of missing a potential churner is high.
 
+---
+
 ## Key Churn Drivers
 
 Feature importance from the Gradient Boosting model highlighted several variables with strong predictive value.
@@ -114,6 +129,8 @@ The most influential features included:
 
 These results are consistent with the patterns observed during exploratory data analysis.
 
+---
+
 ## Business Recommendations
 
 Based on the analytical and predictive results, several retention strategies can be considered:
@@ -128,9 +145,15 @@ Based on the analytical and predictive results, several retention strategies can
 
 Model predictions should be used as a **customer prioritization tool**, rather than as an automatic business decision.
 
+---
+
 ## Interactive Churn Predictor
 
-A lightweight Flask application was developed to demonstrate how the trained model can be used outside the notebooks.
+A Flask application was developed to demonstrate how the trained model can be used outside the notebooks.
+
+### Try the Application
+
+**[Open the Live Churn Predictor](https://customer-churn-analysis-g075.onrender.com)**
 
 Users can enter customer characteristics and obtain an estimated churn probability and risk classification.
 
@@ -138,11 +161,17 @@ Users can enter customer characteristics and obtain an estimated churn probabili
 
 ![Churn Prediction Form](images/predict_form.png)
 
-### Example Prediction
+### Prediction Examples
+
+**Customer with elevated churn risk**
 
 ![Churn Risk Prediction](images/prediction_churn_risk.png)
 
-The application loads the trained Gradient Boosting model and transforms the submitted customer information into the same feature structure used during model training.
+**Customer with low churn risk**
+
+![Low Churn Risk Prediction](images/prediction_low_risk.png)
+
+The application loads the trained Gradient Boosting model and transforms submitted customer information into the same feature structure used during model training.
 
 The prediction output includes:
 
@@ -152,6 +181,8 @@ The prediction output includes:
 - Visual probability indicator
 
 The score is intended to support retention prioritization and should not be interpreted as a guaranteed customer outcome.
+
+---
 
 ## Project Structure
 
@@ -192,9 +223,12 @@ customer-churn-analysis/
 │   └── feature importance reports
 │
 ├── .gitignore
+├── .python-version
 ├── README.md
 └── requirements.txt
 ```
+
+---
 
 ## Notebook Workflow
 
@@ -208,16 +242,18 @@ customer-churn-analysis/
 | `06_model_evaluation.ipynb` | Detailed model and threshold evaluation |
 | `07_business_recommendation.ipynb` | Translation of analytical results into business actions |
 
+---
+
 ## Tech Stack
 
-**Data Analysis**
+### Data Analysis
 
 - Python
 - Pandas
 - NumPy
 - Matplotlib
 
-**Machine Learning**
+### Machine Learning
 
 - Scikit-learn
 - Logistic Regression
@@ -225,18 +261,22 @@ customer-churn-analysis/
 - Gradient Boosting
 - Joblib
 
-**Application**
+### Web Application
 
 - Flask
 - HTML
 - CSS
 - Chart.js
+- Gunicorn
 
-**Development**
+### Deployment & Development
 
+- Render
 - Jupyter Notebook
 - Git
 - GitHub
+
+---
 
 ## Run Locally
 
@@ -247,7 +287,7 @@ git clone https://github.com/Eroscardenas/customer-churn-analysis.git
 cd customer-churn-analysis
 ```
 
-Create a virtual environment:
+Create and activate a virtual environment:
 
 ```bash
 python3 -m venv .venv
@@ -272,8 +312,20 @@ Then open:
 http://127.0.0.1:5000
 ```
 
+---
+
 ## Key Takeaway
 
 The analysis indicates that customer churn is strongly associated with **contract flexibility, customer tenure, service configuration, and pricing-related factors**.
 
-The project demonstrates how exploratory analysis and machine learning can be combined to move from raw customer data to a practical retention-oriented decision support tool.
+The project demonstrates an end-to-end analytics workflow: from raw customer data and exploratory analysis to predictive modeling, business recommendations, and a publicly deployed machine learning application.
+
+---
+
+## Live Demo
+
+The interactive application is publicly available here:
+
+### **[Launch Customer Churn Analysis](https://customer-churn-analysis-g075.onrender.com)**
+
+> The application is hosted on a free Render instance, so the first request after a period of inactivity may take a few seconds to load.
